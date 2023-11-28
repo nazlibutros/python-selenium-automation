@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.wait import WebDriverWait
+from app.application import Application
 
 
 def browser_init(context):
@@ -11,10 +13,10 @@ def browser_init(context):
     service = Service(driver_path)
     context.driver = webdriver.Chrome(service=service)
 
-    context.driver.maximize_window()
-
+    context.driver.wait = WebDriverWait(context.driver, 15)
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)
+    context.app = Application(context.driver)
 
 
 def before_scenario(context, scenario):
@@ -34,3 +36,27 @@ def after_step(context, step):
 def after_scenario(context, feature):
     context.driver.delete_all_cookies()
     context.driver.quit()
+
+#     service = Service(driver_path)
+#     context.driver = webdriver.Chrome(service=service)
+#
+#     context.driver.maximize_window()
+#
+#     context.driver.maximize_window()
+#     context.driver.implicitly_wait(4)
+#
+#
+# #
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from webdriver_manager.chrome import ChromeDriverManager
+# from selenium.webdriver.support.wait import WebDriverWait
+
+# def browser_init(context):
+# 	# @@ -11,6 +12,7 @@ def browser_init(context):
+#     service = Service(driver_path)
+#     context.driver = webdriver.Chrome(service=service)
+#
+#     context.driver.wait = WebDriverWait(context.driver, 15)
+#     context.driver.maximize_window()
+#     context.driver.implicitly_wait(4)

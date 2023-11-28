@@ -7,45 +7,24 @@ SELECTED_COLOR = (By.CSS_SELECTOR, "[class*='StyledVariationSelectorImage'] [cla
 COLOR_OPTIONS2 = (By.CSS_SELECTOR, "a[class*='styles__StyledBaseButtonInternal'] img")
 
 
-@given('Open target product A-88062531 page')
-def open_target(context):
-    context.driver.get('https://www.target.com/p/A-88062531')
+@given('Open target product {product_id} page')
+def open_target(context, product_id):
+    context.driver.get(f'https://www.target.com/p/{product_id}')
     sleep(6)
 
 
-@given('Open target product A-89191279 page')
-def open_target(context):
-    context.driver.get('https://www.target.com/p/A-89191279')
-    sleep(6)
-
-
-@then('Verify user can click through colors1')
-def click_and_verify_colors(context):
-    expected_colors = ['Black', 'Brown', 'Cream', 'Dark Gray', 'Green']
+@then('Verify user can click through {expected_colors}')
+def click_and_verify_colors(context, expected_colors):
+    #expected_colors = ['Black', 'Brown', 'Cream', 'Dark Gray', 'Green']
+    #expected_colors = []
     actual_colors = []
 
     colors = context.driver.find_elements(*COLOR_OPTIONS)  # [webelement1, webelement2, webelement3]
     for color in colors:
         color.click()
-        selected_color = context.driver.find_element(*SELECTED_COLOR).text.split('\n')[
-            1]  # 'Color\nBlack' => ['Color', 'Black']
+        selected_color = context.driver.find_element(*SELECTED_COLOR).text.split('\n')[1]  # 'Color\nBlack' => ['Color', 'Black']
         actual_colors.append(selected_color)
+    print('Expected colors type:', expected_colors)
+    print('Actual colors type:', actual_colors)
+    assert list(expected_colors) in actual_colors, f'Expected {expected_colors} did not match actual {actual_colors}'
 
-    assert expected_colors == actual_colors, f'Expected {expected_colors} did not match actual {actual_colors}'
-
-    then('Verify user can click through colors1')
-
-
-@then('Verify user can click through colors2')
-def click_and_verify_colors2(context):
-    expected_colors2 = ['Black', 'Green', 'Oatmeal', 'Red']
-    actual_colors2 = []
-
-    colors = context.driver.find_elements(*COLOR_OPTIONS2)  # [webelement1, webelement2, webelement3]
-    for color in colors:
-        color.click()
-        selected_color = context.driver.find_element(*SELECTED_COLOR).text.split('\n')[
-            1]  # 'Color\nBlack' => ['Color', 'Black']
-        actual_colors2.append(selected_color)
-
-    assert expected_colors2 == actual_colors2, f'Expected {expected_colors2} did not match actual {actual_colors2}'

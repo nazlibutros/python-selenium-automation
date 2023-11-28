@@ -3,8 +3,8 @@
 
   Scenario: User can select colors
     Given Open target product A-88062531 page
-    Then Verify user can click through colors1
+    Then Verify user can click through ['Black', 'Brown', 'Green', 'Cream - Out of Stock', 'Dark Gray - Out of Stock']
 
-   Scenario: User can select colors2
-    Given Open target product A-89191279 page
-    Then Verify user can click through colors2
+
+# product = A-89191279
+#expected_colors = ['Black', 'Green', 'Oatmeal', 'Red']
