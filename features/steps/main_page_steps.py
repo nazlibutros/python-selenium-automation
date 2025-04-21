@@ -13,22 +13,21 @@ HEADER_LINKS = (By.CSS_SELECTOR, "[id*='utilityNav']")
 
 @given('Open target main page')
 def open_target_main(context):
-    context.driver.get('https://www.target.com/')
-    context.driver.wait.until(
-        EC.element_to_be_clickable(SEARCH_FIELD),
-        message='Search field not clickable'
-    )
+    context.app.main_page.open_target_main_page()
+    # context.driver.wait.until(
+    #     EC.element_to_be_clickable(SEARCH_FIELD),
+    #     message='Search field not clickable'
+    # )
 
 @when('Search for {search_word}')
 def search_product(context, search_word):
-    context.driver.find_element(*SEARCH_FIELD).send_keys(search_word)
-    context.driver.find_element(*SEARCH_BTN).click()
-    sleep(6)
+    context.app.header.search(search_word)
 
 
 @when('Click on Cart icon')
 def click_cart(context):
-    context.driver.find_element(*CART_ICON).click()
+    context.app.header.click_cart()
+    # context.driver.find_element(*CART_ICON).click()
 
 
 @then('Verify at least 1 link shown')
